@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:docker": "docker build -t q-app . && docker run -v ${PWD}:/app -v /app/node_modules -p 3000:3000 --rm q-app",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
