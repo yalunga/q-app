@@ -73,51 +73,22 @@ const data = [
 ]
 
 export default class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      viewersElevation: 'xsmall',
-      followersElevation: 'xsmall',
-      subscribersElevation: 'xsmall'
-    }
-    this.onHoverBegin = this.onHoverBegin.bind(this);
-    this.onHoverEnd = this.onHoverEnd.bind(this)
-  }
-
-  onHoverBegin(e) {
-    this.setState({ [e]: 'large' });
-  }
-
-  onHoverEnd(e) {
-    this.setState({ [e]: 'xsmall' });
-  }
-
   render() {
-    const { viewersElevation, followersElevation, subscribersElevation } = this.state;
     return (
       <Nav title="Dashboard">
         <Heading size="small" level={2} margin="xsmall">Overview</Heading>
         <Box direction="row-responsive" pad="small" gap="xlarge" fill="horizontal">
-          <StatCard 
-            elevation={viewersElevation}
-            onMouseEnter={() => this.onHoverBegin('viewersElevation')}
-            onMouseLeave={() => this.onHoverEnd('viewersElevation')}
+          <StatCard
             value="22.5K"
             icon={<View size="medium" color="#0C81EB" />}
             title="Average Viewers"
           />
-          <StatCard 
-            elevation={followersElevation}
-            onMouseEnter={() => this.onHoverBegin('followersElevation')}
-            onMouseLeave={() => this.onHoverEnd('followersElevation')}
+          <StatCard
             value="22.5K"
             icon={<Group size="medium" color="#3BBE3C" />}
             title="Followers"
           />
           <StatCard
-            elevation={subscribersElevation}
-            onMouseEnter={() => this.onHoverBegin('subscribersElevation')}
-            onMouseLeave={() => this.onHoverEnd('subscribersElevation')}
             value="22.5k"
             icon={<Trophy size="medium" color="brand" />}
             title="Subscribers"
@@ -129,8 +100,8 @@ export default class Home extends Component {
             columns={columns}
             data={data}
             background={{
-              header: "#F4F7FD",
-              body: "white"
+              header: "#383E48",
+              body: "#323039"
             }}
             pad={{ body: "medium" }}
             border={{ body: "bottom" }}

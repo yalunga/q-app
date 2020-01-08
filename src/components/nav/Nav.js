@@ -2,11 +2,29 @@ import React, { Component } from 'react';
 import { Grommet, Box, Button, Grid, Image, Heading } from 'grommet';
 import { View, Group, Trophy, Menu } from 'grommet-icons';
 
+const theme = {
+  global: {
+    elevation: {
+      dark: {
+        medium: "0px 6px 8px rgb(38,38,49)",
+        none: "none",
+        xsmall: "0px 2px 2px rgb(38,38,49)",
+        small: "0px 4px 4px rgb(38,38,49)",
+        large: "0px 8px 16px rgb(38,38,49)",
+        xlarge: "0px 10px 24px rgb(38,38,49)"
+      }
+    },
+    font: {
+      family: "Muli, sans-serif"
+    }
+  }
+}
+
 export default class Nav extends Component {
   render() {
     const { title, children } = this.props;
     return (
-      <Grommet full>
+      <Grommet full theme={theme}>
         <Grid
           fill
           rows={["auto", "flex"]}
@@ -23,12 +41,13 @@ export default class Nav extends Component {
             align="center"
             justify="between"
             pad={{ horizontal: "medium", vertical: "xsmall" }}
-            border={{ color: 'light-4', size: 'xsmall', style: 'solid', side: 'bottom' }}
+            border={{ color: 'dark-2', size: 'xsmall', style: 'solid', side: 'bottom' }}
+            background="#323039"
           >
             <Button>
               <Heading size="small" level={2} margin="xsmall" pad="xsmall">{title}</Heading>
             </Button>
-            <Box round="full" height="xxsmall" width="xxsmall" elevation="small">
+            <Box round="full" height="xxsmall" width="xxsmall">
               <Image fit="cover" fill src="//v2.grommet.io/assets/IMG_4245.jpg" style={{ borderRadius: "100%" }}/>
             </Box>
           </Box>
@@ -39,7 +58,8 @@ export default class Nav extends Component {
               { type: "fadeIn", duration: 300 },
               { type: "slideRight", size: "xlarge", duration: 150 }
             ]}
-            elevation="xsmall"
+            elevation="medium"
+            background="#323039"
           >
             <Button href="/" hoverIndicator>
               <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
@@ -62,7 +82,7 @@ export default class Nav extends Component {
               </Box>
             </Button>
           </Box>
-          <Box gridArea="main" justify="start" align="start" pad={{ horizontal: "large", vertical: "medium" }} background="#F4F7FD">
+          <Box gridArea="main" justify="start" align="start" pad={{ horizontal: "large", vertical: "medium" }} background="#323039">
             {children}
           </Box>
         </Grid>

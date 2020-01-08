@@ -5,16 +5,16 @@ export default class StatCard extends Component {
   render() {
     return (
       <Box
-        elevation={this.props.elevation}
+        elevation="medium"
         round="xsmall"
         pad="medium"
         align="center"
         fill="horizontal"
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
-        background="white"
+        background="#383E48"
       >
-        <Box pad="small" background="#F3F1FF" round="full">
+        <Box pad="small" background="#323039" round="full">
           {this.props.icon}
         </Box>
         <Heading size="small" level={2} margin={{ bottom: "xsmall", top: "xsmall" }}>{this.props.value}</Heading>
