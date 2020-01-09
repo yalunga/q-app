@@ -41,8 +41,8 @@ export default class Nav extends Component {
             align="center"
             justify="between"
             pad={{ horizontal: "medium", vertical: "xsmall" }}
-            border={{ color: 'dark-2', size: 'xsmall', style: 'solid', side: 'bottom' }}
-            background="#323039"
+            border={{ color: 'light-2', size: 'xsmall', style: 'solid', side: 'bottom' }}
+            background="white"
           >
             <Button>
               <Heading size="small" level={2} margin="xsmall" pad="xsmall">{title}</Heading>
@@ -59,7 +59,7 @@ export default class Nav extends Component {
               { type: "slideRight", size: "xlarge", duration: 150 }
             ]}
             elevation="medium"
-            background="#323039"
+            background="white"
           >
             <Button href="/" hoverIndicator>
               <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
@@ -82,7 +82,7 @@ export default class Nav extends Component {
               </Box>
             </Button>
           </Box>
-          <Box gridArea="main" justify="start" align="start" pad={{ horizontal: "large", vertical: "medium" }} background="#323039">
+          <Box gridArea="main" justify="start" align="start" pad={{ horizontal: "large", vertical: "medium" }} background="#F8FAFB">
             {children}
           </Box>
         </Grid>

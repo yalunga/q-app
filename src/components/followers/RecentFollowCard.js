@@ -11,7 +11,7 @@ export default (props) => (
       round="xxsmall"
       pad={{ horizontal: "small", vertical: "small" }}
       alignContent="center"
-      background="#383E48"
+      background="white"
       direction="row"
       gap="small"
     >

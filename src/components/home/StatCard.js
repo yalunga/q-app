@@ -12,9 +12,9 @@ export default class StatCard extends Component {
         fill="horizontal"
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
-        background="#383E48"
+        background="white"
       >
-        <Box pad="small" background="#323039" round="full">
+        <Box pad="small" background="light-3" round="full">
           {this.props.icon}
         </Box>
         <Heading size="small" level={2} margin={{ bottom: "xsmall", top: "xsmall" }}>{this.props.value}</Heading>

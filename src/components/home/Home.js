@@ -100,8 +100,8 @@ export default class Home extends Component {
             columns={columns}
             data={data}
             background={{
-              header: "#383E48",
-              body: "#323039"
+              header: "light-2",
+              body: "white"
             }}
             pad={{ body: "medium" }}
             border={{ body: "bottom" }}
