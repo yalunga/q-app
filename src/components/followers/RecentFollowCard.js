@@ -6,7 +6,7 @@ export default (props) => (
   <Stack anchor="top-right">
     <Box
       width="full"
-      elevation="small"
+      elevation="xsmall"
       background="white"
       round="xxsmall"
       pad={{ horizontal: "small", vertical: "small" }}

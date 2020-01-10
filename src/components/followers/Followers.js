@@ -19,7 +19,11 @@ export default class Followers extends Component {
   componentDidMount() {
     const val = [];
     for (let i = 0; i < 50; i++) {
-      val.push({ x: moment().add(i, 'days').unix(), y: Math.floor(Math.random() * Math.floor(100)), label: moment().add(i, 'days').format("L") });
+      val.push({
+        date: moment().add(i, 'days').unix(),
+        totalFollowers: Math.floor(Math.random() * Math.floor(100)),
+        followersGained: Math.floor(Math.random() * Math.floor(50))
+      });
     }
     this.setState({ data: val, loaded: true });
   }
@@ -31,55 +35,56 @@ export default class Followers extends Component {
     if (loaded) {
       return (
         <Nav title="Followers">
-        <Grid
-          fill
-          rows={["auto", "flex"]}
-          columns={["3/4", "auto"]}
-          areas={[
-            { name: 'main', start: [0, 0], end: [1,0] },
-            { name: 'recent-follows', start:[1, 0], end: [1, 1] },
+          <Grid
+            fill
+            rows={["auto", "flex"]}
+            columns={["3/4", "auto"]}
+            areas={[
+              { name: 'main', start: [0, 0], end: [1, 0] },
+              { name: 'recent-follows', start: [1, 0], end: [1, 1] },
 
-          ]}
-          gap="medium"
-        >
-          <Box direction="column" gridArea="main" gap="medium">
-            <Box gap="small">
-              <Box width="full" round="small" align="start">
-                <Box direction="row" gap="small" fill>
-                  <Box round="full">
-                    <Group size="medium" color="#0C81EB" />
-                  </Box>
-                  <Box>
-                    <Text size="large" weight="bold">{data[data.length - 1].y} Current Followers</Text>
+            ]}
+            gap="medium"
+          >
+            <Box direction="column" gridArea="main" gap="medium">
+              <Box gap="small">
+                <Box width="full" round="small" align="start">
+                  <Box direction="row" gap="small" fill>
+                    <Box round="full">
+                      <Group size="medium" color="#0C81EB" />
+                    </Box>
+                    <Box>
+                      <Text size="large" weight="bold">{data[data.length - 1].totalFollowers} Current Followers</Text>
+                    </Box>
                   </Box>
                 </Box>
+                <FollowerChart
+                  range={range}
+                  data={data}
+                  width="full"
+                  background="white"
+                />
               </Box>
-              <FollowerChart
-                range={range}
-                data={data}
-                width="full"
-                background="white"
-              />
+              <Box elevation="xsmall" pad="small" round="xxsmall" background="white">
+                <Text>Hello World</Text>
+              </Box>
             </Box>
-            <Box elevation="small" pad="small" round="xsmall" background="white">
-              <Text>Hello World</Text>
+            <Box gap="small" gridArea="recent-follows" height="full" overflow={{ vertical: 'auto' }}>
+              <Text alignSelf="center" weight="bold" size="large">Recent Follows</Text>
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+              <RecentFollowCard />
+
             </Box>
-          </Box>
-          <Box gap="small" gridArea="recent-follows" height="full" overflow={{ vertical: 'scroll' }}>
-            <Text alignSelf="center" weight="bold" size="large">Recent Follows</Text>
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-            <RecentFollowCard />
-          </Box>
           </Grid>
         </Nav>
       );

@@ -5,46 +5,46 @@ import { View, Group, Trophy } from 'grommet-icons';
 import Nav from '../nav/Nav.js';
 import StatCard from './StatCard';
 
-const columns= [
+const columns = [
   {
     property: 'date',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px'}}>DATE</Text>,
+    header: <Text size="xsmall" textAlign="center" weight="bold">Date</Text>,
     render: (datum) => (
       <Text size="small" weight="bold">{datum.date}</Text>
     )
   }, {
     property: 'category',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">CATEGORY</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Category</Text>,
     render: (datum) => (
       <Text size="small">{datum.category}</Text>
     )
   }, {
     property: 'title',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">TITLE</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Title</Text>,
     render: (datum) => (
       <Text size="small">{datum.title}</Text>
     )
   }, {
     property: 'duration',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">DURATION</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Duration</Text>,
     render: (datum) => (
       <Text size="small">{datum.duration}</Text>
     )
   }, {
     property: 'viewcount',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">AVG VIEWERS</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Avg Viewers</Text>,
     render: (datum) => (
       <Text size="small">{datum.viewcount}</Text>
     )
   }, {
     property: 'followers',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">FOLLOWERS</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Followers</Text>,
     render: (datum) => (
       <Text size="small" color="status-ok">{datum.followers}</Text>
     )
   }, {
     property: 'subscribers',
-    header: <Text size="small" weight="bold" style={{ letterSpacing: '3px' }} color="dark-3">SUBSCRIBERS</Text>,
+    header: <Text size="xsmall" weight="bold" color="dark-3">Subscribers</Text>,
     render: (datum) => (
       <Text size="small" color="status-critical">{datum.subscribers}</Text>
     )
@@ -100,14 +100,13 @@ export default class Home extends Component {
             columns={columns}
             data={data}
             background={{
-              header: "light-2",
               body: "white"
             }}
-            pad={{ body: "medium" }}
+            pad={{ body: "medium", header: { horizontal: "medium", vertical: "small" } }}
             border={{ body: "bottom" }}
           />
         </Box>
-    </Nav>   
+      </Nav>
     );
   }
 }

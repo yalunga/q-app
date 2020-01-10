@@ -5,7 +5,7 @@ export default class StatCard extends Component {
   render() {
     return (
       <Box
-        elevation="medium"
+        elevation="xsmall"
         round="xsmall"
         pad="medium"
         align="center"
