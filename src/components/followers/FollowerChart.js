@@ -101,7 +101,7 @@ export default class FollowerChart extends Component {
                   <Tick style={{
                     fill: "#BCBCBC",
                     fontSize: "12px",
-                    fontFamily: "Muli",
+                    fontFamily: "Montserrat",
                     fontWeight: 600,
                     lineHeight: "18px"
                   }}
@@ -114,7 +114,7 @@ export default class FollowerChart extends Component {
                 tick={{
                   fill: "#BCBCBC",
                   fontSize: "12px",
-                  fontFamily: "Muli",
+                  fontFamily: "Montserrat",
                   fontWeight: 600,
                   lineHeight: "18px"
                 }}

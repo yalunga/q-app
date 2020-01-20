@@ -15,7 +15,7 @@ const theme = {
       }
     },
     font: {
-      family: "Muli, sans-serif"
+      family: "'Montserrat', sans-serif"
     }
   }
 }
@@ -48,7 +48,7 @@ export default class Nav extends Component {
               <Heading size="small" level={2} margin="xsmall" pad="xsmall">{title}</Heading>
             </Button>
             <Box round="full" height="xxsmall" width="xxsmall">
-              <Image fit="cover" fill src="//v2.grommet.io/assets/IMG_4245.jpg" style={{ borderRadius: "100%" }}/>
+              <Image fit="cover" fill src="//v2.grommet.io/assets/IMG_4245.jpg" style={{ borderRadius: "100%" }} />
             </Box>
           </Box>
           <Box
