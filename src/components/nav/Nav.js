@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Grommet, Box, Button, Grid, Image, Heading } from 'grommet';
-import { View, Group, Trophy, Menu } from 'grommet-icons';
+import { Grommet, Box, Button, Grid, Image, Heading, Text } from 'grommet';
+import { Home, Heart, Star, Eye } from 'react-feather';
 
 const theme = {
   global: {
@@ -53,7 +53,6 @@ export default class Nav extends Component {
           </Box>
           <Box
             gridArea="sidebar"
-            width="xsmall"
             animation={[
               { type: "fadeIn", duration: 300 },
               { type: "slideRight", size: "xlarge", duration: 150 }
@@ -61,32 +60,36 @@ export default class Nav extends Component {
             elevation="medium"
             background="white"
           >
-            <Button href="/" hoverIndicator>
-              <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
-                <Menu size="medium" color="dark-4" />
+            <Button href="/" hoverIndicator focusIndicator={false}>
+              <Box pad='medium' align="center" direction='row' gap='medium' border={title === 'Home' ? { color: '#0585FE', side: 'right', size: '2px' } : { size: '0px' }}>
+                <Home color={title === 'Home' ? '#0585FE' : '#444444'} />
+                <Text size='small' weight='bold'>Home</Text>
               </Box>
             </Button>
-            <Button href="/followers" hoverIndicator>
-              <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
-                <Group size="medium" color="dark-4" />
+            <Button href="/followers" hoverIndicator focusIndicator={false} >
+              <Box pad='medium' align="center" direction='row' gap='medium' border={title === 'Followers' ? { color: '#0585FE', side: 'right', size: '2px' } : { size: '0px' }}>
+                <Heart color={title === 'Followers' ? '#0585FE' : '#444444'} />
+                <Text size='small' weight='bold'>Followers</Text>
               </Box>
             </Button>
-            <Button href="#" hoverIndicator>
-              <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
-                <Trophy size="medium" color="dark-4" />
+            <Button href="#" hoverIndicator focusIndicator={false}>
+              <Box pad='medium' align="center" direction='row' gap='medium' border={title === 'Subscribers' ? { color: '#0585FE', side: 'right', size: '2px' } : { size: '0px' }}>
+                <Star color={title === 'Subscribers' ? '#0585FE' : '#444444'} />
+                <Text size='small' weight='bold'>Subscribers</Text>
               </Box>
             </Button>
-            <Button href="#" hoverIndicator>
-              <Box pad={{ horizontal: "medium", vertical: "medium" }} align="center">
-                <View size="medium" color="dark-4" />
+            <Button href="#" hoverIndicator focusIndicator={false}>
+              <Box pad='medium' align="center" direction='row' gap='medium' border={title === 'Viewers' ? { color: '#0585FE', side: 'right', size: '2px' } : { size: '0px' }}>
+                <Eye color={title === 'Viewers' ? '#0585FE' : '#444444'} />
+                <Text size='small' weight='bold'>Viewers</Text>
               </Box>
             </Button>
           </Box>
-          <Box gridArea="main" justify="start" align="start" pad={{ horizontal: "large", vertical: "medium" }} background="#F8FAFB">
+          <Box gridArea="main" justify="start" align="start" background="#F8FAFB">
             {children}
           </Box>
         </Grid>
-      </Grommet>
+      </Grommet >
     )
   }
 }

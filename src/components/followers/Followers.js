@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Nav from '../nav/Nav';
-import FollowerChart from './FollowerChart';
+import FollowerChart from './charts/FollowerChart';
 import RecentFollowCard from './RecentFollowCard';
+import FollowersGainedByWeekdayChart from './charts/FollowersGainedByWeekdayChart';
 
 import { Box, Text, Grid } from 'grommet';
 import { Group } from 'grommet-icons';
@@ -46,7 +47,7 @@ export default class Followers extends Component {
             ]}
             gap="medium"
           >
-            <Box direction="column" gridArea="main" gap="medium">
+            <Box direction="column" gridArea="main" gap="medium" pad='medium'>
               <Box gap="small">
                 <Box width="full" round="small" align="start">
                   <Box direction="row" gap="small" fill>
@@ -65,25 +66,18 @@ export default class Followers extends Component {
                   background="white"
                 />
               </Box>
-              <Box elevation="xsmall" pad="small" round="xxsmall" background="white">
-                <Text>Hello World</Text>
+              <Box direction='row' gap='medium'>
+                <Box elevation="small" pad="small" round="xxsmall" background="white" basis='1/2'>
+                  <FollowersGainedByWeekdayChart />
+                </Box>
+                <Box elevation="small" pad="small" round="xxsmall" background="white" basis='1/2'>
+                  <FollowersGainedByWeekdayChart />
+                </Box>
               </Box>
             </Box>
-            <Box gap="small" gridArea="recent-follows" height="full" overflow={{ vertical: 'auto' }}>
+            <Box gap="small" gridArea="recent-follows" height="full" overflow={{ vertical: 'auto' }} pad='medium'>
               <Text alignSelf="center" weight="bold" size="large">Recent Follows</Text>
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-              <RecentFollowCard />
-
+              {Array.from({ length: 10 }).map((newFollower) => <RecentFollowCard />)}
             </Box>
           </Grid>
         </Nav>

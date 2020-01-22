@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { Box, Stack, Text, Menu } from 'grommet'
-import { AreaChart, Area, ResponsiveContainer, Text as TickText, XAxis, YAxis, Tooltip } from 'recharts';
+import { Box, Stack, Text } from 'grommet'
+import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import moment from 'moment';
 
-
-class Tick extends Component {
-  render() {
-    const { payload } = this.props;
-    return (<TickText {...this.props}>{moment.unix(payload.value).format("ll")}</TickText>);
-  }
+const CustomizedAxisTick = props => {
+  const { x, y, payload } = props
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Montserrat' fontWeight='600' lineHeight='18px'>
+        {moment.unix(payload.value).format("ll")}
+      </text>
+    </g>
+  )
 }
+
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
@@ -43,7 +47,7 @@ export default class FollowerChart extends Component {
     const { range, data, width, background } = this.props;
     const { showFollowersGained } = this.state;
     return (
-      <Box elevation="xsmall" pad="small" background={background} round="xxsmall" basis={width}>
+      <Box elevation="small" pad="small" background={background} round="xxsmall" basis={width}>
         <Box width="full" height="medium" gap="small">
           <Stack interactiveChild="first">
             <Box direction="row" justify="between">
@@ -87,8 +91,8 @@ export default class FollowerChart extends Component {
               {showFollowersGained && <Area type="monotone" dataKey="followersGained" stroke="#00C781" strokeWidth={3} fillOpacity={0} />}
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0C81EB" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#0C81EB" stopOpacity={0} />
+                  <stop offset="10%" stopColor="#0C81EB" stopOpacity={0.2} />
+                  <stop offset="90%" stopColor="#0C81EB" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <Tooltip content={<CustomTooltip />} />
@@ -97,16 +101,7 @@ export default class FollowerChart extends Component {
                 scale="time"
                 tickLine={false}
                 axisLine={false}
-                tick={
-                  <Tick style={{
-                    fill: "#BCBCBC",
-                    fontSize: "12px",
-                    fontFamily: "Montserrat",
-                    fontWeight: 600,
-                    lineHeight: "18px"
-                  }}
-                  />
-                }
+                tick={<CustomizedAxisTick />}
               />
               <YAxis
                 tickLine={false}
