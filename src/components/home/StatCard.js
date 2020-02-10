@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading, Text } from 'grommet';
+import { Box, Text } from 'grommet';
 import { ArrowDownRight, ArrowUpRight } from 'react-feather';
 
 export default class StatCard extends Component {
@@ -7,27 +7,35 @@ export default class StatCard extends Component {
     return (
       <Box
         elevation="small"
-        round="xsmall"
+        round="xxsmall"
         pad="small"
-        fill="horizontal"
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
         background="white"
+        gap='small'
+        responsive
+        border={{ side: 'left', size: '3px', color: this.props.color }}
       >
-        <Box direction='row' gap='small' align='center' justify='between'>
-          <Heading size="small" level={6} margin='none' color='dark-4'>{this.props.title}</Heading>
-          <Box pad="xsmall" background={this.props.iconBackground} round="full">
+        <Box direction='row' gap='small' align='center' justify='between' responsive>
+          <Text
+            size="small"
+            level={6}
+            margin='none'
+            color='dark-4'
+            style={{ textTransform: 'uppercase', letterSpacing: '2px' }}
+          >
+            {this.props.title}
+          </Text>
+          <Box pad="xsmall" round="full" background='light-1'>
             {this.props.icon}
           </Box>
         </Box>
-        <Heading size="small" level={1} margin='none'>{this.props.value}</Heading>
-        <Box direction='row' align='center' gap='xsmall' margin={{ top: 'small' }}>
+        <Text size="xxlarge">{this.props.value}</Text>
+        <Box direction='row' align='center' gap='xsmall' margin={{ top: 'small' }} responsive>
           {this.props.growth < 0 ?
             <ArrowDownRight size={18} color='#E03332' />
             :
             <ArrowUpRight size={18} color='#36C634' />
           }
-          <Text size='small' weight='bold' color={(this.props.growth > 0) ? '#36C634' : '#E03332'}>
+          <Text size='small' color={(this.props.growth > 0) ? '#36C634' : '#E03332'}>
             {this.props.growth}% since last month
           </Text>
         </Box>

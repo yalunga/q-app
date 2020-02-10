@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Box, Text } from 'grommet';
-import { BarChart, Bar, XAxis, YAxis, Text as TickText, ResponsiveContainer } from 'recharts';
+import { Box } from 'grommet';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 const data = [
   { dayOfTheWeek: 'Mon', avgFollowersGained: 200 },
@@ -17,7 +17,7 @@ const CustomizedAxisTick = props => {
 
   return (
     <g transform={`translate(${x},${y})`}>
-      <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Montserrat' fontWeight='600' lineHeight='18px'>
+      <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Rubik' lineHeight='18px'>
         {payload.value}
       </text>
     </g>
@@ -42,7 +42,7 @@ export default class FollowersGainedByWeekdayChart extends Component {
               tick={<CustomizedAxisTick />}
               width={20}
             />
-            <Bar dataKey='avgFollowersGained' fill='#0C81EB' background={{ fill: '#eee' }} />
+            <Bar dataKey='avgFollowersGained' fill='#0C81EB' background={{ fill: '#eee' }} radius={[10, 10, 10, 10]} barSize={8} />
           </BarChart>
         </ResponsiveContainer>
       </Box>
