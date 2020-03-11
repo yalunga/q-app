@@ -1,7 +1,8 @@
 import React from 'react';
-import * as R from 'ramda';
-import { Box } from 'grommet';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_VIEW_COUNT_BY_WEEKDAY } from '../../../utils/ApiUtils';
+
 
 const CustomizedAxisTick = props => {
   const { x, y, payload } = props
@@ -15,19 +16,18 @@ const CustomizedAxisTick = props => {
   )
 }
 
-export default ({ data }) => {
-
-  const formattedData = R.map((d) => ({
-    dayOfTheWeek: d[0],
-    count: d[1]
-  }), R.toPairs(data))
-  formattedData.pop();
+export default () => {
+  const { data, loading, error } = useQuery(GET_VIEW_COUNT_BY_WEEKDAY);
+  if (loading) {
+    return null;
+  }
+  const { viewCountByDayOfTheWeek } = data;
   return (
-    <Box width='full' height='medium' gap='xsmall'>
+    <div className='w-full h-full'>
       <ResponsiveContainer width='100%' height='100%'>
-        <BarChart data={formattedData} barCategoryGap='40%'>
+        <BarChart data={viewCountByDayOfTheWeek} barCategoryGap='40%'>
           <XAxis
-            dataKey='dayOfTheWeek'
+            dataKey='day'
             tickLine={false}
             axisLine={false}
             tick={<CustomizedAxisTick />}
@@ -41,6 +41,6 @@ export default ({ data }) => {
           <Bar dataKey='count' fill='#0C81EB' background={{ fill: '#eee' }} radius={[10, 10, 10, 10]} barSize={8} />
         </BarChart>
       </ResponsiveContainer>
-    </Box>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import * as R from 'ramda';
 import { Box } from 'grommet';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
 
 const CustomizedAxisTick = props => {
   const { x, y, payload } = props
@@ -9,25 +8,26 @@ const CustomizedAxisTick = props => {
   return (
     <g transform={`translate(${x},${y})`}>
       <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Rubik'>
-        {String(payload.value).charAt(0).toUpperCase() + String(payload.value).slice(1)}
+        {payload.value}
       </text>
     </g>
   )
 }
 
 export default ({ data }) => {
+  data.forEach((element, index) => {
+    index % 4 === 0 ? element.color = '#0C81EB' :
+      index % 3 === 0 ? element.color = '#FDBC03' :
+        index % 2 === 0 ? element.color = '#836CE8' :
+          element.color = '#3ED599';
 
-  const formattedData = R.map((d) => ({
-    dayOfTheWeek: d[0],
-    count: d[1]
-  }), R.toPairs(data))
-  formattedData.pop();
+  });
   return (
     <Box width='full' height='medium' gap='xsmall'>
       <ResponsiveContainer width='100%' height='100%'>
-        <BarChart data={formattedData} barCategoryGap='40%'>
+        <BarChart data={data} barCategoryGap='40%'>
           <XAxis
-            dataKey='dayOfTheWeek'
+            dataKey='game'
             tickLine={false}
             axisLine={false}
             tick={<CustomizedAxisTick />}
@@ -38,7 +38,11 @@ export default ({ data }) => {
             tick={<CustomizedAxisTick />}
             width={20}
           />
-          <Bar dataKey='count' fill='#0C81EB' background={{ fill: '#eee' }} radius={[10, 10, 10, 10]} barSize={8} />
+          <Bar dataKey='count' barSize={8}>
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} background={{ fill: '#eee' }} radius={[10, 10, 10, 10]} fill={entry.color} />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </Box>

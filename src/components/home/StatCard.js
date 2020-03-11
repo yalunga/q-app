@@ -1,45 +1,30 @@
 import React, { Component } from 'react';
-import { Box, Text } from 'grommet';
 import { ArrowDownRight, ArrowUpRight } from 'react-feather';
 
 export default class StatCard extends Component {
   render() {
     return (
-      <Box
-        elevation="small"
-        round="xxsmall"
-        pad="small"
-        background="white"
-        gap='small'
-        responsive
-        border={{ side: 'left', size: '3px', color: this.props.color }}
-      >
-        <Box direction='row' gap='small' align='center' justify='between' responsive>
-          <Text
-            size="small"
-            level={6}
-            margin='none'
-            color='dark-4'
-            style={{ textTransform: 'uppercase', letterSpacing: '2px' }}
-          >
+      <div className='flex flex-col justify-between w-full shadow-md rounded p-2 bg-white border-l-4' style={{ borderLeftColor: this.props.color }} >
+        <div className='flex flex-row justify-between'>
+          <span className='text-sm text-gray-600' style={{ textTransform: 'uppercase', letterSpacing: '2px' }}>
             {this.props.title}
-          </Text>
-          <Box pad="xsmall" round="full" background='light-1'>
+          </span>
+          <div className='p-2 rounded-full bg-gray-200'>
             {this.props.icon}
-          </Box>
-        </Box>
-        <Text size="xxlarge">{this.props.value}</Text>
-        <Box direction='row' align='center' gap='xsmall' margin={{ top: 'small' }} responsive>
+          </div>
+        </div>
+        <span className='text-3xl'>{this.props.value}</span>
+        <div className='flex flex-row content-center mt-8'>
           {this.props.growth < 0 ?
             <ArrowDownRight size={18} color='#E03332' />
             :
             <ArrowUpRight size={18} color='#36C634' />
           }
-          <Text size='small' color={(this.props.growth > 0) ? '#36C634' : '#E03332'}>
+          <span className='text-sm ml-2' style={{ color: (this.props.growth > 0) ? '#36C634' : '#E03332' }}>
             {this.props.growth}% since last month
-          </Text>
-        </Box>
-      </Box>
+          </span>
+        </div>
+      </div>
     );
   }
 }

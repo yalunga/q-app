@@ -1,88 +1,64 @@
-import React, { Component } from 'react';
-import Nav from '../nav/Nav';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import FollowerChart from './charts/FollowerChart';
-import RecentFollowCard from './RecentFollowCard';
+import FollowersGainedByGame from './charts/FollowersGainedByGame';
+import FollowersGainedByHourOfTheDay from './charts/FollowersGainedByHourOfTheDay';
 import FollowersGainedByWeekdayChart from './charts/FollowersGainedByWeekdayChart';
+import { GET_FOLLOWER_DATA } from '../../utils/ApiUtils';
 
-import { Box, Text, Grid } from 'grommet';
-import { Group } from 'grommet-icons';
-import moment from 'moment';
+export default () => {
+  const { loading, error, data } = useQuery(GET_FOLLOWER_DATA);
+  const [followerWeekdayOrHour, setFollowerWeekdayOrHour] = useState('weekday');
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followCountsByDayOfTheWeek, setFollowCountsByDayOfTheWeek] = useState([]);
+  const [followCountsByHourOfTheDay, setFollowCountsByHourOfTheDay] = useState([]);
+  const [followCountsByGame, setFollowCountsByGame] = useState([]);
 
-export default class Followers extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: [],
-      loaded: false
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      const {
+        followerCount,
+        followCountsByDayOfTheWeek,
+        followCountsByHourOfTheDay,
+        followCountsByGame,
+      } = data;
+      setFollowerCount(followerCount);
+      setFollowCountsByDayOfTheWeek(followCountsByDayOfTheWeek);
+      setFollowCountsByHourOfTheDay(followCountsByHourOfTheDay);
+      setFollowCountsByGame(followCountsByGame);
     }
-  }
-
-  componentDidMount() {
-    const val = [];
-    for (let i = 0; i < 50; i++) {
-      val.push({
-        date: moment().add(i, 'days').unix(),
-        totalFollowers: Math.floor(Math.random() * Math.floor(100)),
-        followersGained: Math.floor(Math.random() * Math.floor(50))
-      });
-    }
-    this.setState({ data: val, loaded: true });
-  }
-
-
-  render() {
-    console.log(moment().add(1, 'days').unix());
-    const { range, data, loaded } = this.state;
-    if (loaded) {
-      return (
-        <Nav title="Followers">
-          <Grid
-            fill
-            rows={["auto", "flex"]}
-            columns={["3/4", "auto"]}
-            areas={[
-              { name: 'main', start: [0, 0], end: [1, 0] },
-              { name: 'recent-follows', start: [1, 0], end: [1, 1] },
-
-            ]}
-            gap="medium"
-          >
-            <Box direction="column" gridArea="main" gap="medium" pad='medium'>
-              <Box gap="small">
-                <Box width="full" round="small" align="start">
-                  <Box direction="row" gap="small" fill>
-                    <Box round="full">
-                      <Group size="medium" color="#0C81EB" />
-                    </Box>
-                    <Box>
-                      <Text size="large" weight="bold">{data[data.length - 1].totalFollowers} Current Followers</Text>
-                    </Box>
-                  </Box>
-                </Box>
-                <FollowerChart
-                  range={range}
-                  data={data}
-                  width="full"
-                  background="white"
-                />
-              </Box>
-              <Box direction='row' gap='medium'>
-                <Box elevation="small" pad="small" round="xxsmall" background="white" basis='1/2'>
-                  <FollowersGainedByWeekdayChart />
-                </Box>
-                <Box elevation="small" pad="small" round="xxsmall" background="white" basis='1/2'>
-                  <FollowersGainedByWeekdayChart />
-                </Box>
-              </Box>
-            </Box>
-            <Box gap="small" gridArea="recent-follows" height="full" overflow={{ vertical: 'auto' }} pad='medium'>
-              <Text alignSelf="center" weight="bold" size="large">Recent Follows</Text>
-              {Array.from({ length: 10 }).map((newFollower) => <RecentFollowCard />)}
-            </Box>
-          </Grid>
-        </Nav>
-      );
-    }
-    return <div></div>
-  }
-}
+  });
+  return (
+    <div className='w-full p-4'>
+      <h1 className='text-3xl font-medium'>Followers</h1>
+      <FollowerChart followerCount={followerCount} />
+      <div className='w-full grid grid-cols-1 grid-rows-2 gap-4 mt-2 md:grid-cols-2 md:grid-rows-1'>
+        <div className='w-full shadow-lg p-4 rounded bg-white'>
+          <div className='flex'>
+            <span
+              className={`text-xs ${followerWeekdayOrHour === 'weekday' ? 'text-black' : 'text-gray-500'}`}
+              style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
+              onClick={() => setFollowerWeekdayOrHour('weekday')}>
+              Followers Gained By Weekday
+                   </span>
+            <span
+              className={`text-xs ml-2 ${followerWeekdayOrHour === 'hour' ? 'text-black' : 'text-gray-500'}`}
+              style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
+              onClick={() => setFollowerWeekdayOrHour('hour')}>
+              Followers Gained By Hour
+                </span>
+          </div>
+          {followerWeekdayOrHour === 'weekday'
+            ? <FollowersGainedByWeekdayChart data={followCountsByDayOfTheWeek} />
+            : <FollowersGainedByHourOfTheDay data={followCountsByHourOfTheDay} />
+          }
+        </div>
+        <div className='w-full shadow-lg p-4 rounded bg-white'>
+          <span className='text-xs' style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>Followers Gained By Game</span>
+          <FollowersGainedByGame data={followCountsByGame} />
+        </div>
+      </div>
+    </div>
+  )
+};

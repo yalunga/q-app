@@ -16,18 +16,32 @@ const CustomizedAxisTick = props => {
 }
 
 export default ({ data }) => {
-
-  const formattedData = R.map((d) => ({
-    dayOfTheWeek: d[0],
-    count: d[1]
-  }), R.toPairs(data))
-  formattedData.pop();
+  const formattedData = [
+    { hour: '12AM', count: 0 },
+    { hour: '3AM', count: 0 },
+    { hour: '6AM', count: 0 },
+    { hour: '9AM', count: 0 },
+    { hour: '12PM', count: 0 },
+    { hour: '3PM', count: 0 },
+    { hour: '6PM', count: 0 },
+    { hour: '9PM', count: 0 },
+  ];
+  R.forEach((d) => {
+    d.houroftheday < 3 ? formattedData[0].count += d.count :
+      d.houroftheday < 6 ? formattedData[1].count += d.count :
+        d.houroftheday < 9 ? formattedData[2].count += d.count :
+          d.houroftheday < 12 ? formattedData[3].count += d.count :
+            d.houroftheday < 15 ? formattedData[4].count += d.count :
+              d.houroftheday < 18 ? formattedData[5].count += d.count :
+                d.houroftheday < 21 ? formattedData[6].count += d.count :
+                  formattedData[7].count += d.count
+  }, data);
   return (
     <Box width='full' height='medium' gap='xsmall'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart data={formattedData} barCategoryGap='40%'>
           <XAxis
-            dataKey='dayOfTheWeek'
+            dataKey='hour'
             tickLine={false}
             axisLine={false}
             tick={<CustomizedAxisTick />}
