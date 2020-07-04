@@ -4,7 +4,7 @@ import { ArrowDownRight, ArrowUpRight } from 'react-feather';
 export default class StatCard extends Component {
   render() {
     return (
-      <div className='flex flex-col justify-between w-full shadow-md rounded p-2 bg-white border-l-4' style={{ borderLeftColor: this.props.color }} >
+      <div className='flex flex-col justify-between w-full shadow-md rounded-md p-2 bg-white border-l-4' style={{ borderLeftColor: this.props.color }} >
         <div className='flex flex-row justify-between'>
           <span className='text-sm text-gray-600' style={{ textTransform: 'uppercase', letterSpacing: '2px' }}>
             {this.props.title}

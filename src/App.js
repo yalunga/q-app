@@ -1,25 +1,27 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import './css/tailwind.css';
-import Login from './components/auth/Login';
 import Home from './components/home/Home';
-import Viewers from './components/viewers/Viewers';
-import { client } from './utils/ApiUtils';
+import Search from './components/search/Search';
 
+import { twitchReducer } from './redux/reducers/twitchReducer';
+
+const store = createStore(twitchReducer, applyMiddleware(thunk));
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/viewers' component={Viewers} />
-          <Route exact path='/' component={Home} />
+          <Route exact path='/twitch/:id' component={Home} />
+          <Route exact path='/' component={Search} />
         </Switch>
       </Router>
-    </ApolloProvider>
+    </Provider>
   );
 }
 

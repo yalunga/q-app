@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import moment from 'moment';
 
-import { GET_FOLLOWER_CHART_DATA } from '../../../utils/ApiUtils';
+import { CustomizedYAxisTick } from '../../../utils/ChartUtils';
+import { followsChartDataSelector, followerViewSelect } from '../../../redux/selectors/twitchSelectors';
+import { setFollowerView } from '../../../redux/actions/twitchActions';
+import { followerViews } from '../../../redux/constants/twitchConstants';
 
 const CustomizedAxisTick = props => {
   const { x, y, payload } = props
   return (
     <g transform={`translate(${x},${y})`}>
-      <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Rubik'>
-        {moment(Number(payload.value)).format('ll')}
+      <text dy={16} textAnchor='middle' fill='#BCBCBC' fontSize='12px' fontFamily='Inter'>
+        {moment(payload.value).format('ll')}
       </text>
     </g>
   )
 }
 
-
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length > 0) {
     return (
-      <div className='flex flex-col shadow bg-white rounded p-4'>
+      <div className='flex flex-col shadow bg-white rounded-md p-4'>
         <span className='text-sm font-semibold' style={{ color: '#0C81EB' }}>{payload[0].value} Total Followers</span>
         {payload[1] &&
           <span className='text-xs font-semibold' style={{ color: '#8C54FF' }}>{payload[1].value} Followers Gained</span>
         }
-        <span className='text-sm font-semibold text-gray-500'>{moment(Number(label)).format('ll')}</span>
+        <span className='text-sm font-semibold text-gray-500'>{moment(label).format('ll')}</span>
       </div>
     )
   }
@@ -39,31 +42,21 @@ const getDateForSince = (allTimeYearMonthOrWeek) => {
   if (allTimeYearMonthOrWeek === 'week') return moment().subtract(1, 'week').format();
 }
 
-export default ({ followerCount = 0 }) => {
+const mapStateToProps = (state) => {
+  return {
+    data: state.follows.length > 0 ? followsChartDataSelector(state) : [],
+    followerView: followerViewSelect(state)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  setFollowerView: (followerView) => dispatch(setFollowerView(followerView))
+});
+
+const FollowerChart = ({ data, followerView, setFollowerView }) => {
   const [showFollowersGained, setShowFollowersGained] = useState(false);
-  const [allTimeYearMonthOrWeek, setAllTimeYearMonthOrWeek] = useState('month');
-  const [followCountByDate, setFollowCountByDate] = useState([]);
-  const { data, loading, error } = useQuery(GET_FOLLOWER_CHART_DATA, {
-    variables: {
-      measureOfTime: allTimeYearMonthOrWeek === 'month' || allTimeYearMonthOrWeek === 'week' ? 'day' : 'week',
-      since: getDateForSince(allTimeYearMonthOrWeek)
-    }
-  });
-  useEffect(() => {
-    if (data) {
-      const { followCountByDate } = data;
-      if (followCountByDate && followCountByDate.length > 0) {
-        const length = followCountByDate.length;
-        followCountByDate[length - 1].totalFollowers = followerCount;
-        for (let i = length - 2; i >= 0; i--) {
-          followCountByDate[i].totalFollowers = followCountByDate[i + 1].totalFollowers - followCountByDate[i].count;
-        }
-        setFollowCountByDate(followCountByDate);
-      }
-    }
-  });
   return (
-    <div className='w-full bg-white shadow-lg px-4 rounded mt-2'>
+    <div className='w-full bg-white shadow-lg px-4 rounded-md mt-2'>
       <div className='w-full pt-2'>
         <div className='flex flex-col md:flex-row justify-between w-full'>
           <div className='flex'>
@@ -92,45 +85,45 @@ export default ({ followerCount = 0 }) => {
           </div>
           <div className='flex'>
             <span
-              className={`text-xs mr-2 ${allTimeYearMonthOrWeek === 'allTime' ? 'text-black' : 'text-gray-500'}`}
+              className={`text-xs mr-2 ${followerView === followerViews.ALL_TIME ? 'text-black' : 'text-gray-500'}`}
               style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
-              onClick={() => setAllTimeYearMonthOrWeek('allTime')}
+              onClick={() => setFollowerView(followerViews.ALL_TIME)}
             >
               All Time
             </span>
             <span
-              className={`text-xs mr-2 ${allTimeYearMonthOrWeek === 'year' ? 'text-black' : 'text-gray-500'}`}
+              className={`text-xs mr-2 ${followerView === followerViews.YEAR ? 'text-black' : 'text-gray-500'}`}
               style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
-              onClick={() => setAllTimeYearMonthOrWeek('year')}
+              onClick={() => setFollowerView(followerViews.YEAR)}
             >
               Year
             </span>
             <span
-              className={`text-xs mr-2 ${allTimeYearMonthOrWeek === 'month' ? 'text-black' : 'text-gray-500'}`}
+              className={`text-xs mr-2 ${followerView === followerViews.MONTH ? 'text-black' : 'text-gray-500'}`}
               style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
-              onClick={() => setAllTimeYearMonthOrWeek('month')}
+              onClick={() => setFollowerView(followerViews.MONTH)}
             >
               Month
             </span>
             <span
-              className={`text-xs mr-2 ${allTimeYearMonthOrWeek === 'week' ? 'text-black' : 'text-gray-500'}`}
+              className={`text-xs mr-2 ${followerView === followerViews.WEEK ? 'text-black' : 'text-gray-500'}`}
               style={{ textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
-              onClick={() => setAllTimeYearMonthOrWeek('week')}
+              onClick={() => setFollowerView(followerViews.WEEK)}
             >
               Week
             </span>
           </div>
         </div>
         <div style={{ height: 400 }}>
-          {!loading && (
+          {(
             <ResponsiveContainer width='100%' height='100%'>
-              <LineChart data={followCountByDate} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type='monotone' dataKey='totalFollowers' stroke='#0C81EB' strokeWidth={2} fillOpacity={1} fill='url(#colorUv)' />
-                {showFollowersGained && <Line type='monotone' dataKey='count' stroke='#8C54FF' strokeWidth={2} fillOpacity={0} />}
+              <LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <Line yAxisId='left' type='monotone' dataKey='count' stroke='#0C81EB' strokeWidth={2} fillOpacity={1} fill='url(#colorUv)' />
+                {showFollowersGained && <Line yAxisId='right' type='monotone' dataKey='gained' stroke='#8C54FF' strokeWidth={2} fillOpacity={0} />}
                 <Tooltip content={<CustomTooltip />} />
                 <CartesianGrid strokeDasharray='3 3' />
                 <XAxis
-                  dataKey='date'
+                  dataKey='timestamp'
                   tickLine={false}
                   axisLine={false}
                   tick={<CustomizedAxisTick />}
@@ -138,13 +131,26 @@ export default ({ followerCount = 0 }) => {
                 <YAxis
                   tickLine={false}
                   axisLine={false}
-                  tick={{
-                    fill: '#BCBCBC',
-                    fontSize: '12px',
-                    fontFamily: 'Rubik',
-                  }}
+                  tick={<CustomizedYAxisTick />}
                   width={40}
+                  yAxisId='left'
+                  domain={['auto', 'auto']}
                 />
+                {showFollowersGained &&
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{
+                      fill: '#BCBCBC',
+                      fontSize: '12px',
+                      fontFamily: 'Inter',
+                    }}
+                    width={40}
+                    yAxisId='right'
+                    orientation='right'
+                    domain={['auto', 'auto']}
+                  />
+                }
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -153,3 +159,5 @@ export default ({ followerCount = 0 }) => {
     </div>
   )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(FollowerChart);
