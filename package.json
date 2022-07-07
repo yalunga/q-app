@@ -11,7 +11,7 @@
     "grommet-icons": "^4.4.0",
     "grommet-styles": "^0.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "number-abbreviate": "^2.0.0",
     "ramda": "^0.27.0",
     "react": "^16.12.0",
